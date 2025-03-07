@@ -1,0 +1,15 @@
+# Dataset configuration
+
+# outputName must match what is in the cmsRun config file in process.TFileService, otherwise the CRAB config file will be wrong and CRAB won't be able to find the output files 
+
+requestname: "Analyzer"
+
+signal:
+  year: 2023
+  script: src/L1Trigger/L1TGTTAnalyzer/test/crab/crab_script_signal.py
+  # note: 23 is outdated but 24 campaign is still on tape (/SMS-T2tt_mStop-1000_mLSP-775_TuneCP5_14TeV-madgraphMLM-pythia8/Phase2Spring24DIGIRECOMiniAOD-PU200_Trk1GeV_140X_mcRun4_realistic_v4-v1/GEN-SIM-DIGI-RAW-MINIAOD)
+  prodtag: Phase2Spring23
+  inputDBS: global
+  outputName: analyzer.root
+  datasets:
+    SMS-T2tt_mStop-1000_mLSP-775_TuneCP5_14TeV-madgraphMLM-pythia8: /SMS-T2tt_mStop-1000_mLSP-775_TuneCP5_14TeV-madgraphMLM-pythia8/Phase2Spring23DIGIRECOMiniAOD-PU200_L1TFix_131X_mcRun4_realistic_v9-v1/GEN-SIM-DIGI-RAW-MINIAOD
