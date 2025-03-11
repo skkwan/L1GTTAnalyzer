@@ -47,7 +47,8 @@
 
 /* Helper function declarations */
 
-void setMaxErrorTo1(TGraphAsymmErrors *graph);
+void setMaxYErrorTo1(TGraphAsymmErrors *graph);
+void setXErrorToHistBinWidth(TGraphAsymmErrors *graph, TH1F *hist);
 
 /*******************************************************************/
 
@@ -91,7 +92,7 @@ TGraphAsymmErrors* calculateEfficiency(TString variable,
   Float_t xbins[13] = {0, 10, 20, 25, 30, 35, 40, 45, 50, 60, 70, 90, 110};
   int nVarBins = (int) sizeof(xbins)/sizeof(xbins[0]) - 1;
 
-  if(variableBin)
+  if (variableBin)
     {
       Denom = new TH1F("Denom", "Denom", nVarBins, xbins);
       Num = new TH1F("Num", "Num", nVarBins, xbins);
@@ -121,8 +122,8 @@ TGraphAsymmErrors* calculateEfficiency(TString variable,
 
   TGraphAsymmErrors* effAsym = new TGraphAsymmErrors(Num);
 
-  setMaxErrorTo1(effAsym);
-
+  setMaxYErrorTo1(effAsym);
+  setXErrorToHistBinWidth(effAsym, Num);
   return effAsym;
 }
 
@@ -131,7 +132,7 @@ TGraphAsymmErrors* calculateEfficiency(TString variable,
 /* Sets the maximum and minimum error of graph to be 1.0 and 0.0 
    respectively. */
 
-void setMaxErrorTo1(TGraphAsymmErrors *graph)
+void setMaxYErrorTo1(TGraphAsymmErrors *graph)
 {
   for (int i = 0; i < graph->GetN(); i++)
     {
@@ -152,7 +153,18 @@ void setMaxErrorTo1(TGraphAsymmErrors *graph)
     }
 }
 
+/*******************************************************************/
 
+/* 
+ * Set the x-axis errors of a TGraphAsymmErrors to the corresponding bin widths of the original histogram.
+ */
+void setXErrorToHistBinWidth(TGraphAsymmErrors* graph, TH1F* hist) {
+  for (int i = 0; i < graph->GetN(); i++) {
+    float binwidth = hist->GetBinWidth(i);
+    graph->SetPointEXlow(i, binwidth/2);
+    graph->SetPointEXhigh(i, binwidth/2);
+  }
+}
 
 /*******************************************************************/
 

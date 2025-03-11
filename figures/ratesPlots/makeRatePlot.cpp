@@ -43,7 +43,7 @@ void makeRatePlot(TString variable_name = "trkMHT") {
 
   float numBins = 100.0;
 
-  TH1D* histReco = new TH1D("reco", "reco;reco threshold (GeV);Occurrences", numBins, 0, numBins);  //using tracks
+  TH1D* histReco = new TH1D("reco", "reco; " + variable_name + " (GeV); L1 Rate (kHz)", numBins, 0, numBins);  //using tracks
 
   int nevt = tree->GetEntries();
   cout << "number of events = " << nevt << endl;
@@ -58,10 +58,20 @@ void makeRatePlot(TString variable_name = "trkMHT") {
   }  // end event loop
 
   // -------------------------------------------------------------------------------------------
+  // Get rate histogram
   histReco->SetStats(0);
   histReco->SetLineColor(kRed);
   histReco->SetTitle("");
+  TH1D* fCumulative = GetCumulative(histReco);
+  fCumulative->Scale(4.0e3 / fCumulative->GetBinContent(1));
 
+  //  fCumulative->SetTitle("MinBias Events PU 200; " + variable_name + " [GeV]; L1 Rate [kHz]");
+  fCumulative->SetMarkerSize(0.7);
+  fCumulative->SetMarkerStyle(20);
+  fCumulative->SetMarkerColor(fCumulative->GetLineColor());
+  fCumulative->GetYaxis()->SetRangeUser(1E-01, 1E05);
+
+  // Initialize legend 
   TLegend* leg = new TLegend(0.48, 0.68, 0.88, 0.88);
   leg->SetBorderSize(0);
   leg->SetFillStyle(0);
@@ -69,24 +79,20 @@ void makeRatePlot(TString variable_name = "trkMHT") {
   leg->SetTextFont(42);
   leg->AddEntry(histReco, variable_name, "l");
 
-  TH1D* fCumulative = GetCumulative(histReco);
-  fCumulative->Scale(4.0e3 / fCumulative->GetBinContent(1));
 
-  fCumulative->SetTitle("MinBias Events PU 200; " + variable_name + " [GeV]; L1 Rate [kHz]");
-  fCumulative->SetMarkerSize(0.7);
-  fCumulative->SetMarkerStyle(20);
-  fCumulative->SetMarkerColor(fCumulative->GetLineColor());
 
-  TCanvas* can = new TCanvas("can", "can");
+  // Create the canvas 
+  TCanvas* can = new TCanvas("can", "can", 100, 20, 1000, 1000);
   can->SetGridx();
   can->SetGridy();
   can->SetLogy();
+  can->SetLeftMargin(0.18);
 
-  fCumulative->GetYaxis()->SetRangeUser(1E-01, 1E05);
-
+  // Draw the objects
   fCumulative->Draw();
   leg->Draw("SAME");
 
+  // draw horizontal line to represent 35 kHz
   TLine* line_rate = new TLine(0, 35, numBins, 35);
   line_rate->SetLineColor(kBlack);
   line_rate->SetLineWidth(2);
@@ -95,6 +101,16 @@ void makeRatePlot(TString variable_name = "trkMHT") {
   std::cout << variable_name << "threshold at 35kHz "
             << fCumulative->GetBinLowEdge(fCumulative->FindLastBinAbove(35)) << std::endl;
 
+  // add decorator text
+  TLatex *latex = new TLatex(); 
+  latex->SetNDC();
+  latex->SetTextFont(42);
+  latex->SetTextColor(kBlack);
+  TString emuLabel = "#scale[1.0]{#bf{CMS}} #scale[0.6]{#it{Phase-2 GTT}}";  
+  latex->DrawLatex(0.10, 0.920, emuLabel);  
+  latex->DrawLatex(0.50, 0.920, "#scale[0.6]{200 PU MinBias (Phase2Spring24)}"); 
+
+    
   can->SaveAs(variable_name + "_minBias_RatePlot.root");
   can->SaveAs(variable_name + "_minBias_RatePlot.png");
   can->SaveAs(variable_name + "_minBias_RatePlot.pdf");

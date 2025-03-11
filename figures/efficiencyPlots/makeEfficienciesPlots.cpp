@@ -45,26 +45,26 @@ void makeEfficienciesPlotOneScheme(void)  {
   /**********************************************************************************************************/
   /* (Plot #1) eff. as a function of gen pT, standalone WP, GCT cluster pT > 25 GeV, genPt > 30 GeV         */
   /**********************************************************************************************************/
+  // trkMHTEmu
+  vGraphs.clear();  vLabels.clear();  vColors.clear();
+  xMin = 0;
+  xMax = 150;
+  l1Cut   = "(trkMHTEmu > 40) && (trueMET > 40)";
+  genCut  = "(trueMET > 40)";
+  useVariableBinning = false;
 
-  // vGraphs.clear();  vLabels.clear();  vColors.clear();
-  // xMin = 0;
-  // xMax = 150;
-  // l1Cut   = "(trkMHTEmu > 40) && (trueMET > 40)";
-  // genCut  = "(trueMET > 40)";
-  // useVariableBinning = false;
+  TGraphAsymmErrors *eff = calculateEfficiency("trueMET", treePath, rootFileDirectory,
+              l1Cut,
+              genCut, xMin, xMax, useVariableBinning);
+  vGraphs.push_back(eff);
+  vLabels.push_back("T2tt");
+  vColors.push_back(kBlack);
 
-  // TGraphAsymmErrors *eff = calculateEfficiency("trueMET", treePath, rootFileDirectory,
-  //             l1Cut,
-  //             genCut, xMin, xMax, useVariableBinning);
-  // vGraphs.push_back(eff);
-  // vLabels.push_back("T2tt");
-  // vColors.push_back(kBlack);
-
-  // plotNEfficiencies(vGraphs, vLabels, vColors,
-  //                   "TrueMET / GeV",
-  //                   "Phase-2 GTT Emulators",   
-  //                   outputPlotName + "_T2tt_trkMHTEmu_trueMET",                                                             
-  //                   outputDirectory, "TrkMHTEmu > 40 GeV && TrueMET > 40 GeV"); // L1 p_{T} > 25 GeV, |#eta^{Gen}| < 1.4841", 0.0, 1.02, "Gen p_{T} > 30 GeV");  
+  plotNEfficiencies(vGraphs, vLabels, vColors,
+                    "TrueMET / GeV",
+                    "Phase-2 GTT",   
+                    outputPlotName + "_T2tt_trkMHTEmu_trueMET",                                                             
+                    outputDirectory, "TrkMHTEmu > 40 GeV && TrueMET > 40 GeV"); // L1 p_{T} > 25 GeV, |#eta^{Gen}| < 1.4841", 0.0, 1.02, "Gen p_{T} > 30 GeV");  
 
   vGraphs.clear();  vLabels.clear();  vColors.clear();
   xMin = 0;
@@ -73,40 +73,48 @@ void makeEfficienciesPlotOneScheme(void)  {
   genCut  = "(trueMET > 40)";
   useVariableBinning = false;
 
-  TGraphAsymmErrors *eff2 = calculateEfficiency("trueMET", treePath, rootFileDirectory,
+  // trkMHT 
+  vGraphs.clear();  vLabels.clear();  vColors.clear();
+  xMin = 0;
+  xMax = 150;
+  l1Cut   = "(trkMHT > 40) && (trueMET > 40)";
+  genCut  = "(trueMET > 40)";
+  useVariableBinning = false;
+
+  TGraphAsymmErrors *eff_trkMHT = calculateEfficiency("trueMET", treePath, rootFileDirectory,
               l1Cut,
               genCut, xMin, xMax, useVariableBinning);
-  vGraphs.push_back(eff2);
+  vGraphs.push_back(eff_trkMHT);
   vLabels.push_back("T2tt");
   vColors.push_back(kBlack);
 
   plotNEfficiencies(vGraphs, vLabels, vColors,
                     "TrueMET / GeV",
-                    "Phase-2 GTT Emulators",   
+                    "Phase-2 GTT",   
                     outputPlotName + "_T2tt_trkMHT_trueMET",                                                             
-                    outputDirectory, "TrkMHT > 40 GeV && TrueMET > 40 GeV"); // L1 p_{T} > 25 GeV, |#eta^{Gen}| < 1.4841", 0.0, 1.02, "Gen p_{T} > 30 GeV");  
+                    outputDirectory, "TrkMHT > 40 GeV && TrueMET > 40 GeV");
 
 
-  // // next
-  // vGraphs.clear();  vLabels.clear();  vColors.clear();
-  // xMin = 0;
-  // xMax = 150;
-  // l1Cut   = "(trkMET > 40) && (trueMET > 40)";
-  // genCut  = "(trueMET > 40)";
-  // useVariableBinning = false;
+  // next: trkMET
+  vGraphs.clear();  vLabels.clear();  vColors.clear();
+  xMin = 0;
+  xMax = 150;
+  l1Cut   = "(trkMET > 40) && (trueMET > 40)";
+  genCut  = "(trueMET > 40)";
+  useVariableBinning = false;
 
-  // TGraphAsymmErrors *eff2 = calculateEfficiency("trueMET", treePath, rootFileDirectory,
-  //             l1Cut,
-  //             genCut, xMin, xMax, useVariableBinning);
-  // vGraphs.push_back(eff2);
-  // vLabels.push_back("T2tt");
-  // vColors.push_back(kBlack);
+  TGraphAsymmErrors *eff3 = calculateEfficiency("trueMET", treePath, rootFileDirectory,
+              l1Cut,
+              genCut, xMin, xMax, useVariableBinning);
+  vGraphs.push_back(eff3);
+  vLabels.push_back("T2tt");
+  vColors.push_back(kBlack);
 
-  // plotNEfficiencies(vGraphs, vLabels, vColors,
-  //                   "TrueMET / GeV",
-  //                   "Phase-2 GTT Emulators",   
-  //                   outputPlotName + "_T2tt_trkMET_trueMET",                                                             
-  //                   outputDirectory, "TrkMET > 40 GeV && TrueMET > 40 GeV"); // L1 p_{T} > 25 GeV, |#eta^{Gen}| < 1.4841", 0.0, 1.02, "Gen p_{T} > 30 GeV");  
+  plotNEfficiencies(vGraphs, vLabels, vColors,
+                    "TrueMET / GeV",
+                    "Phase-2 GTT",   
+                    outputPlotName + "_T2tt_trkMET_trueMET",                                                             
+                    outputDirectory, "TrkMET > 40 GeV && TrueMET > 40 GeV"); // L1 p_{T} > 25 GeV, |#eta^{Gen}| < 1.4841", 0.0, 1.02, "Gen p_{T} > 30 GeV");  
 
 
 //   /***********************************************************************************/
