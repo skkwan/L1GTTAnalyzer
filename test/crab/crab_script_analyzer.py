@@ -83,7 +83,7 @@ process.Timing = cms.Service("Timing",
 )
 
 # process.TFileService = cms.Service("TFileService", fileName = cms.string('events_100_GTTObjects_ttbar200PU_Phase2Spring24.root'), closeFileFast = cms.untracked.bool(True))
-process.TFileService = cms.Service("TFileService", fileName = cms.string('onefile_T2tt_mStop-1000_mLSP-775.root'), closeFileFast = cms.untracked.bool(True))
+process.TFileService = cms.Service("TFileService", fileName = cms.string('analyzer.root'), closeFileFast = cms.untracked.bool(True))
 
 
 ############################################################
@@ -310,7 +310,7 @@ process.ntuple = cms.Path(process.L1TrackNtuple)
 process.out = cms.OutputModule( "PoolOutputModule",
  #                               outputCommands = process.RAWSIMEventContent.outputCommands,
                                 outputCommands = cms.untracked.vstring("keep *","drop *_*_*_HLT"),
-                                fileName = cms.untracked.string("analyzer.root" )
+                                fileName = cms.untracked.string("l1tGTTAnalyzer.root" )
 		               )
 #process.out.outputCommands.append('keep  *_*_*_*')
 #process.out.outputCommands.append('drop  l1tEMTFHits_*_*_*')

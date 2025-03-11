@@ -10,7 +10,7 @@ CMSSW_BASE = os.getenv('CMSSW_BASE') + "/"
 
 print("Found CMSSW_BASE as", CMSSW_BASE)
 
-for eraType in ["signal"]:
+for eraType in ["minbias"]:
    for d in config[eraType]["datasets"]:
 
       dir = "crabJobConfigs/" + str(config[eraType]["year"]) + "/" 
@@ -25,6 +25,7 @@ for eraType in ["signal"]:
       dasName          = config[eraType]["datasets"][d] # DAS name
       inputDBS         = config[eraType]["inputDBS"]    # inputDBS
       outputTag        = 'Analyzer_' + d + "_" + config[eraType]["prodtag"]  
+      nFilesPerJob     = config[eraType]["nFilesPerJob"][d]
 
       # Make one new template file per dataset
       with open('crab_template_cfg.py', 'r') as templatefile:
@@ -37,7 +38,8 @@ for eraType in ["signal"]:
             t5 = t4.replace('DAS_NAME',                dasName)
             t6 = t5.replace('INPUT_DBS',               inputDBS)
             t7 = t6.replace('OUTPUT_TAG',              outputTag)
+            t8 = t7.replace('N_FILES_PER_JOB',         str(nFilesPerJob))
 
-            writefile.write(t7)
+            writefile.write(t8)
 
 #-------------------------------------------------------#

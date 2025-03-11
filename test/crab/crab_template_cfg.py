@@ -21,7 +21,7 @@ config.JobType.outputFiles = ['OUTPUT_FILE_NAME']
 config.section_("Data")
 config.Data.inputDataset = 'DAS_NAME'
 config.Data.inputDBS     = 'INPUT_DBS'
-config.Data.unitsPerJob  = 2
+config.Data.unitsPerJob  = N_FILES_PER_JOB
 config.Data.splitting    = 'FileBased'
 
 config.Data.outLFNDirBase    = '/store/user/skkwan/L1TGTTAnalyzer'
@@ -30,7 +30,7 @@ config.Data.outputDatasetTag = 'OUTPUT_TAG'
 
 # config.JobType.maxJobRuntimeMin = 300
 # config.JobType.numCores = 4
-# config.JobType.maxMemoryMB = 9000
+config.JobType.maxMemoryMB = 5000
 
 config.section_("Site")
 config.Site.storageSite = "T2_US_Wisconsin"

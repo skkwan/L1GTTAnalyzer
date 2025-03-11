@@ -1,0 +1,8 @@
+*.root
+*.pdf
+*.png
+__pycache__
+.__afs*
+crabJobConfigs/
+crab_projects/
+crab.log
