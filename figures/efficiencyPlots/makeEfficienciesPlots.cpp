@@ -49,8 +49,8 @@ void makeEfficienciesPlotOneScheme(void)  {
   vGraphs.clear();  vLabels.clear();  vColors.clear();
   xMin = 0;
   xMax = 150;
-  l1Cut   = "(trkMHTEmu > 40) && (trueMET > 40)";
-  genCut  = "(trueMET > 40)";
+  l1Cut   = "(trkMHTEmu > 40)";
+  genCut  = "";
   useVariableBinning = false;
 
   TGraphAsymmErrors *eff = calculateEfficiency("trueMET", treePath, rootFileDirectory,
@@ -64,21 +64,21 @@ void makeEfficienciesPlotOneScheme(void)  {
                     "TrueMET / GeV",
                     "Phase-2 GTT",   
                     outputPlotName + "_T2tt_trkMHTEmu_trueMET",                                                             
-                    outputDirectory, "TrkMHTEmu > 40 GeV && TrueMET > 40 GeV"); // L1 p_{T} > 25 GeV, |#eta^{Gen}| < 1.4841", 0.0, 1.02, "Gen p_{T} > 30 GeV");  
+                    outputDirectory, "TrkMHTEmu > 40 GeV"); // L1 p_{T} > 25 GeV, |#eta^{Gen}| < 1.4841", 0.0, 1.02, "Gen p_{T} > 30 GeV");  
 
   vGraphs.clear();  vLabels.clear();  vColors.clear();
   xMin = 0;
   xMax = 150;
-  l1Cut   = "(trkMHT > 40) && (trueMET > 40)";
-  genCut  = "(trueMET > 40)";
+  l1Cut   = "(trkMHT > 40)";
+  genCut  = "";
   useVariableBinning = false;
 
   // trkMHT 
   vGraphs.clear();  vLabels.clear();  vColors.clear();
   xMin = 0;
   xMax = 150;
-  l1Cut   = "(trkMHT > 40) && (trueMET > 40)";
-  genCut  = "(trueMET > 40)";
+  l1Cut   = "(trkMHT > 40)";
+  genCut  = "";
   useVariableBinning = false;
 
   TGraphAsymmErrors *eff_trkMHT = calculateEfficiency("trueMET", treePath, rootFileDirectory,
@@ -92,15 +92,15 @@ void makeEfficienciesPlotOneScheme(void)  {
                     "TrueMET / GeV",
                     "Phase-2 GTT",   
                     outputPlotName + "_T2tt_trkMHT_trueMET",                                                             
-                    outputDirectory, "TrkMHT > 40 GeV && TrueMET > 40 GeV");
+                    outputDirectory, "TrkMHT > 40 GeV");
 
 
   // next: trkMET
   vGraphs.clear();  vLabels.clear();  vColors.clear();
   xMin = 0;
   xMax = 150;
-  l1Cut   = "(trkMET > 40) && (trueMET > 40)";
-  genCut  = "(trueMET > 40)";
+  l1Cut   = "(trkMET > 40)";
+  genCut  = "";
   useVariableBinning = false;
 
   TGraphAsymmErrors *eff3 = calculateEfficiency("trueMET", treePath, rootFileDirectory,
@@ -114,7 +114,7 @@ void makeEfficienciesPlotOneScheme(void)  {
                     "TrueMET / GeV",
                     "Phase-2 GTT",   
                     outputPlotName + "_T2tt_trkMET_trueMET",                                                             
-                    outputDirectory, "TrkMET > 40 GeV && TrueMET > 40 GeV"); // L1 p_{T} > 25 GeV, |#eta^{Gen}| < 1.4841", 0.0, 1.02, "Gen p_{T} > 30 GeV");  
+                    outputDirectory, "TrkMET > 40 GeV"); // L1 p_{T} > 25 GeV, |#eta^{Gen}| < 1.4841", 0.0, 1.02, "Gen p_{T} > 30 GeV");  
 
 
 //   /***********************************************************************************/

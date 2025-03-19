@@ -63,13 +63,13 @@ void makeRatePlot(TString variable_name = "trkMHT") {
   histReco->SetLineColor(kRed);
   histReco->SetTitle("");
   TH1D* fCumulative = GetCumulative(histReco);
-  fCumulative->Scale(4.0e3 / fCumulative->GetBinContent(1));
+  fCumulative->Scale(35.0 / fCumulative->GetBinContent(1));
 
   //  fCumulative->SetTitle("MinBias Events PU 200; " + variable_name + " [GeV]; L1 Rate [kHz]");
   fCumulative->SetMarkerSize(0.7);
   fCumulative->SetMarkerStyle(20);
   fCumulative->SetMarkerColor(fCumulative->GetLineColor());
-  fCumulative->GetYaxis()->SetRangeUser(1E-01, 1E05);
+  fCumulative->GetYaxis()->SetRangeUser(1E-01, 1E02);
 
   // Initialize legend 
   TLegend* leg = new TLegend(0.48, 0.68, 0.88, 0.88);
@@ -92,11 +92,11 @@ void makeRatePlot(TString variable_name = "trkMHT") {
   fCumulative->Draw();
   leg->Draw("SAME");
 
-  // draw horizontal line to represent 35 kHz
-  TLine* line_rate = new TLine(0, 35, numBins, 35);
-  line_rate->SetLineColor(kBlack);
-  line_rate->SetLineWidth(2);
-  line_rate->Draw("SAME");
+  // // draw horizontal line to represent 35 kHz
+  // TLine* line_rate = new TLine(0, 35, numBins, 35);
+  // line_rate->SetLineColor(kBlack);
+  // line_rate->SetLineWidth(2);
+  // line_rate->Draw("SAME");
 
   std::cout << variable_name << "threshold at 35kHz "
             << fCumulative->GetBinLowEdge(fCumulative->FindLastBinAbove(35)) << std::endl;

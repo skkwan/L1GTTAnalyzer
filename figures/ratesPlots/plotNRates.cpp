@@ -78,21 +78,25 @@ void plotNRates(std::vector<TH1F*> hists,
        itHist++, itLabel++, itColor++)
     {
       if (itHist == hists.begin()) // only do this once 
-   {
-     histDummy = new TH1F(**itHist);
-   }
+        {
+          histDummy = new TH1F(**itHist);
+        }
       
       // De-reference the iterator to get the TH1F*
-      (*itHist)->SetLineWidth(3);
+      (*itHist)->SetLineWidth(2);
       (*itHist)->SetLineColor(*itColor);
+      (*itHist)->SetMarkerSize(0.7);
+      (*itHist)->SetMarkerStyle(20);
+      (*itHist)->SetMarkerColor(*itColor);
     }
 
+  gStyle->SetEndErrorSize(3);
 
-  histDummy->Draw("");
+//  histDummy->Draw("E1");
 
   for (itHist = hists.begin(); itHist != hists.end(); itHist++)
     {
-      (*itHist)->Draw("SAME");
+      (*itHist)->Draw("E1 SAME");
     }
 
   histDummy->GetXaxis()->SetRangeUser(xMin, xMax);
@@ -116,17 +120,14 @@ void plotNRates(std::vector<TH1F*> hists,
 
 
   // Default to RCT label, use GCT if not
-  TString emuLabel = "#scale[1.0]{#bf{CMS}} #scale[0.6]{#it{Emulators}}";  
+  TString emuLabel = "#scale[1.0]{#bf{CMS}} #scale[0.6]{#it{GTT Emulator}}";  
   //TString emuLabel = "#scale[1.0]{#bf{CMS}} #scale[0.6]{#it{TDR Emulator}}";  
 
-  if (outputName.Contains("RCT")) {
-    emuLabel = "#scale[1.0]{#bf{CMS}} #scale[0.6]{#it{Phase 2 RCT emulator}}";  
-  }
   latex->DrawLatex(0.17, 0.960, emuLabel); 
   latex->DrawLatex(0.75, 0.960, "#scale[0.6]{200 PU, MinBias}"); 
 
   float commentaryXpos = 0.41;
-  latex->DrawLatex(commentaryXpos, 0.9, "#scale[0.7]{Phase-2 L1EG (Crystal, Barrel)}");
+  latex->DrawLatex(commentaryXpos, 0.9, "#scale[0.7]{Phase-2 L1 Global Track Trigger}");
   //  latex->DrawLatex(commentaryXpos, 0.790, "#scale[0.8]{Phase 2 HLT TDR Winter20}");
 
   Tcan->Update();
