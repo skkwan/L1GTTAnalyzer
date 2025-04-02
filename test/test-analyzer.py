@@ -54,14 +54,19 @@ process.MessageLogger.cerr.INFO.limit = cms.untracked.int32(0) # default: 0
 # input and output
 ############################################################
 
-process.maxEvents = cms.untracked.PSet(input = cms.untracked.int32(100))
+process.maxEvents = cms.untracked.PSet(input = cms.untracked.int32(5))
 
 readFiles = cms.untracked.vstring(
     # # TTbar
     # '/store/mc/Phase2Spring24DIGIRECOMiniAOD/TT_TuneCP5_14TeV-powheg-pythia8/GEN-SIM-DIGI-RAW-MINIAOD/PU200_AllTP_140X_mcRun4_realistic_v4-v1/2560000/11d1f6f0-5f03-421e-90c7-b5815197fc85.root'
 
+    # # mStop 1000 mLSP 775. Phase2Spring24 dataset is still on tape
+    # /SMS-T2tt_mStop-1000_mLSP-775_TuneCP5_14TeV-madgraphMLM-pythia8/Phase2Spring24DIGIRECOMiniAOD-PU200_Trk1GeV_140X_mcRun4_realistic_v4-v1/GEN-SIM-DIGI-RAW-MINIAOD
+    # for now use Phase2Spring23 # 'root://cms-xrd-global.cern.ch//store/mc/Phase2Spring24DIGIRECOMiniAOD/SMS-T2tt_mStop-1000_mLSP-775_TuneCP5_14TeV-madgraphMLM-pythia8/GEN-SIM-DIGI-RAW-MINIAOD/PU200_Trk1GeV_140X_mcRun4_realistic_v4-v1/2520000/01b76f7e-ce03-4192-90d7-2a2c0f83b10b.root'
+    # '/store/mc/Phase2Spring23DIGIRECOMiniAOD/SMS-T2tt_mStop-1000_mLSP-775_TuneCP5_14TeV-madgraphMLM-pythia8/GEN-SIM-DIGI-RAW-MINIAOD/PU200_L1TFix_131X_mcRun4_realistic_v9-v1/2820000/118886f3-2732-4bbc-a33c-bddaadb0bc89.root'
+
     # MinBias: /MinBias_TuneCP5_14TeV-pythia8/Phase2Spring24DIGIRECOMiniAOD-PU200ALCA_140X_mcRun4_realistic_v4-v2/GEN-SIM-DIGI-RAW-MINIAOD 
-    '/store/mc/Phase2Spring24DIGIRECOMiniAOD/MinBias_TuneCP5_14TeV-pythia8/GEN-SIM-DIGI-RAW-MINIAOD/PU200ALCA_140X_mcRun4_realistic_v4-v2/120000/004dd3c5-29c9-4283-95f3-baf57220dce2.root'
+    '/store/mc/Phase2Spring24DIGIRECOMiniAOD/MinBias_TuneCP5_14TeV-pythia8/GEN-SIM-DIGI-RAW-MINIAOD/PU200ALCA_140X_mcRun4_realistic_v4-v2/120000/004f52f5-5cac-4a87-ab4d-ac7fcea30858.root'
 )
 secFiles = cms.untracked.vstring()
 
@@ -78,7 +83,7 @@ process.Timing = cms.Service("Timing",
 )
 
 # process.TFileService = cms.Service("TFileService", fileName = cms.string('events_100_GTTObjects_ttbar200PU_Phase2Spring24.root'), closeFileFast = cms.untracked.bool(True))
-process.TFileService = cms.Service("TFileService", fileName = cms.string('onefile_MinBias_PU200_Phase2Spring24_140X.root'), closeFileFast = cms.untracked.bool(True))
+process.TFileService = cms.Service("TFileService", fileName = cms.string('onefile_T2tt_mStop-1000_mLSP-775.root'), closeFileFast = cms.untracked.bool(True))
 
 
 ############################################################
