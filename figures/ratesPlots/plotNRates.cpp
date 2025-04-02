@@ -49,7 +49,7 @@ void plotNRates(std::vector<TH1F*> hists,
   setTDRStyle();
   TCanvas* Tcan = new TCanvas("Tcan","", 100, 20, 1000, 1000);
 //  TLegend* leg = new TLegend(0.55,0.15,0.90,0.45); // bottom right corner
-  TLegend* leg = new TLegend(0.40,0.65,0.90,0.95);
+  TLegend* leg = new TLegend(0.60,0.65,0.90,0.95);
   applySmallerLegStyle(leg);
 
   Tcan->SetGrid();
@@ -96,17 +96,16 @@ void plotNRates(std::vector<TH1F*> hists,
 
   for (itHist = hists.begin(); itHist != hists.end(); itHist++)
     {
+      (*itHist)->GetXaxis()->SetRangeUser(xMin, xMax);
+      (*itHist)->GetYaxis()->SetRangeUser(yMin, yMax);
+      (*itHist)->GetXaxis()->SetTitle(xAxisLabel);
+      (*itHist)->GetYaxis()->SetTitle("Rate (kHz)");
+      (*itHist)->GetXaxis()->SetTitleSize(0.06); // default is 0.03                                                                    
+      (*itHist)->GetYaxis()->SetTitleSize(0.06); // default is 0.03 
+      (*itHist)->GetYaxis()->SetMaxDigits(6); // Suppress scientific notation on y-axis because it clashes with the header
       (*itHist)->Draw("E1 SAME");
     }
 
-  histDummy->GetXaxis()->SetRangeUser(xMin, xMax);
-  histDummy->GetYaxis()->SetRangeUser(yMin, yMax);
-  histDummy->GetXaxis()->SetTitle(xAxisLabel);
-  histDummy->GetYaxis()->SetTitle("Rate [kHz]");
-  histDummy->GetXaxis()->SetTitleSize(0.06); // default is 0.03                                                                    
-  histDummy->GetYaxis()->SetTitleSize(0.06); // default is 0.03 
-
-  histDummy->GetYaxis()->SetMaxDigits(6); // Suppress scientific notation on y-axis because it clashes with the header
   // histDummy->GetYaxis()->SetNoExponent(kFALSE);
   /* Customize legend */
   //  leg->SetHeader(legendName); 
@@ -126,8 +125,8 @@ void plotNRates(std::vector<TH1F*> hists,
   latex->DrawLatex(0.17, 0.960, emuLabel); 
   latex->DrawLatex(0.75, 0.960, "#scale[0.6]{200 PU, MinBias}"); 
 
-  float commentaryXpos = 0.41;
-  latex->DrawLatex(commentaryXpos, 0.9, "#scale[0.7]{Phase-2 L1 Global Track Trigger}");
+  float commentaryXpos = 0.53;
+  latex->DrawLatex(commentaryXpos, 0.9, "#scale[0.6]{Phase-2 L1 Global Track Trigger}");
   //  latex->DrawLatex(commentaryXpos, 0.790, "#scale[0.8]{Phase 2 HLT TDR Winter20}");
 
   Tcan->Update();

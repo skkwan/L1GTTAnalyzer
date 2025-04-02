@@ -42,126 +42,81 @@ void makeEfficienciesPlotOneScheme(void)  {
 
   outputPlotName = "efficiency";
 
-  /**********************************************************************************************************/
-  /* (Plot #1) eff. as a function of gen pT, standalone WP, GCT cluster pT > 25 GeV, genPt > 30 GeV         */
-  /**********************************************************************************************************/
-  // trkMHTEmu
+  // /****************************************/
+  // /* (Plot #1) efficiency of trkMHT      */
+  // /****************************************/
+  // vGraphs.clear();  vLabels.clear();  vColors.clear();
+  // xMin = 0;
+  // xMax = 150;
+  // l1Cut   = "(trkMHT > 40)";
+  // genCut  = "";
+  // useVariableBinning = false;
+
+  // TGraphAsymmErrors *eff_trkMHT = calculateEfficiency("trueMET", treePath, rootFileDirectory,
+  //             l1Cut,
+  //             genCut, xMin, xMax, useVariableBinning);
+  // vGraphs.push_back(eff_trkMHT);
+  // vLabels.push_back("T2tt");
+  // vColors.push_back(kBlack);
+
+  // plotNEfficiencies(vGraphs, vLabels, vColors,
+  //                   "TrueMET / GeV",
+  //                   "Phase-2 GTT",   
+  //                   outputPlotName + "_T2tt_trkMHT_trueMET",                                                             
+  //                   outputDirectory, "TrkMHT > 40 GeV");
+
+
+  // /****************************************/
+  // /* (Plot #2) efficiency of trkMET       */
+  // /****************************************/
+  // vGraphs.clear();  vLabels.clear();  vColors.clear();
+  // xMin = 0;
+  // xMax = 150;
+  // l1Cut   = "(trkMET > 40)";
+  // genCut  = "";
+  // useVariableBinning = false;
+
+  // TGraphAsymmErrors *eff3 = calculateEfficiency("trueMET", treePath, rootFileDirectory,
+  //             l1Cut,
+  //             genCut, xMin, xMax, useVariableBinning);
+  // vGraphs.push_back(eff3);
+  // vLabels.push_back("T2tt");
+  // vColors.push_back(kBlack);
+
+  // plotNEfficiencies(vGraphs, vLabels, vColors,
+  //                   "TrueMET / GeV",
+  //                   "Phase-2 GTT",   
+  //                   outputPlotName + "_T2tt_trkMET_trueMET",                                                             
+  //                   outputDirectory, "TrkMET > 40 GeV"); // L1 p_{T} > 25 GeV, |#eta^{Gen}| < 1.4841", 0.0, 1.02, "Gen p_{T} > 30 GeV");  
+
+  /****************************************/
+  /* (Plot #3) overlay trkMHT and trkMET  */
+  /****************************************/
   vGraphs.clear();  vLabels.clear();  vColors.clear();
   xMin = 0;
-  xMax = 150;
-  l1Cut   = "(trkMHTEmu > 40)";
+  xMax = 200;
   genCut  = "";
   useVariableBinning = false;
 
-  TGraphAsymmErrors *eff = calculateEfficiency("trueMET", treePath, rootFileDirectory,
-              l1Cut,
+  TGraphAsymmErrors *eff_trkMHT_for_overlay = calculateEfficiency("trueMET", treePath, rootFileDirectory,
+              "(trkMHT > 60)",
               genCut, xMin, xMax, useVariableBinning);
-  vGraphs.push_back(eff);
-  vLabels.push_back("T2tt");
+  vGraphs.push_back(eff_trkMHT_for_overlay);
+  vLabels.push_back("trkMHT (cut on trkMHT > 60 GeV)");
   vColors.push_back(kBlack);
+
+  TGraphAsymmErrors *eff_trkMET_for_overlay = calculateEfficiency("trueMET", treePath, rootFileDirectory,
+    "(trkMET > 60)",
+    genCut, xMin, xMax, useVariableBinning);
+  vGraphs.push_back(eff_trkMET_for_overlay);
+  vLabels.push_back("trkMET (cut on trkMET > 60 GeV)");
+  vColors.push_back(kRed);
 
   plotNEfficiencies(vGraphs, vLabels, vColors,
                     "TrueMET / GeV",
                     "Phase-2 GTT",   
-                    outputPlotName + "_T2tt_trkMHTEmu_trueMET",                                                             
-                    outputDirectory, "TrkMHTEmu > 40 GeV"); // L1 p_{T} > 25 GeV, |#eta^{Gen}| < 1.4841", 0.0, 1.02, "Gen p_{T} > 30 GeV");  
-
-  vGraphs.clear();  vLabels.clear();  vColors.clear();
-  xMin = 0;
-  xMax = 150;
-  l1Cut   = "(trkMHT > 40)";
-  genCut  = "";
-  useVariableBinning = false;
-
-  // trkMHT 
-  vGraphs.clear();  vLabels.clear();  vColors.clear();
-  xMin = 0;
-  xMax = 150;
-  l1Cut   = "(trkMHT > 40)";
-  genCut  = "";
-  useVariableBinning = false;
-
-  TGraphAsymmErrors *eff_trkMHT = calculateEfficiency("trueMET", treePath, rootFileDirectory,
-              l1Cut,
-              genCut, xMin, xMax, useVariableBinning);
-  vGraphs.push_back(eff_trkMHT);
-  vLabels.push_back("T2tt");
-  vColors.push_back(kBlack);
-
-  plotNEfficiencies(vGraphs, vLabels, vColors,
-                    "TrueMET / GeV",
-                    "Phase-2 GTT",   
-                    outputPlotName + "_T2tt_trkMHT_trueMET",                                                             
-                    outputDirectory, "TrkMHT > 40 GeV");
-
-
-  // next: trkMET
-  vGraphs.clear();  vLabels.clear();  vColors.clear();
-  xMin = 0;
-  xMax = 150;
-  l1Cut   = "(trkMET > 40)";
-  genCut  = "";
-  useVariableBinning = false;
-
-  TGraphAsymmErrors *eff3 = calculateEfficiency("trueMET", treePath, rootFileDirectory,
-              l1Cut,
-              genCut, xMin, xMax, useVariableBinning);
-  vGraphs.push_back(eff3);
-  vLabels.push_back("T2tt");
-  vColors.push_back(kBlack);
-
-  plotNEfficiencies(vGraphs, vLabels, vColors,
-                    "TrueMET / GeV",
-                    "Phase-2 GTT",   
-                    outputPlotName + "_T2tt_trkMET_trueMET",                                                             
-                    outputDirectory, "TrkMET > 40 GeV"); // L1 p_{T} > 25 GeV, |#eta^{Gen}| < 1.4841", 0.0, 1.02, "Gen p_{T} > 30 GeV");  
-
-
-//   /***********************************************************************************/
-//   /* (Plot #2) efficiency as a function of genEta: GCT > 25 GeV pT, gen pT > 30 GeV  */
-//   /***********************************************************************************/
-
-//   vGraphs.clear();  vLabels.clear();  vColors.clear();
-//   xMin = -1.5;
-//   xMax = 1.5;
-
-//   genCut  = "(abs(genEta) < 1.4841) && (genPt > 30)";
-//   l1Cut   = "(abs(genEta) < 1.4841) && (gct_cPt > 25) && (genPt > 30)";
-//   useVariableBinning = false;
-
-//   TGraphAsymmErrors *allEta = calculateEfficiency("genEta", treePath, rootFileDirectory,
-//               l1Cut,
-//               genCut, xMin, xMax, useVariableBinning);
-//   vGraphs.push_back(allEta);
-//   vLabels.push_back("TDR emulator w/o WP");
-//   vColors.push_back(kGray);
-
-//   TGraphAsymmErrors *tightEta = calculateEfficiency("genEta", treePath, rootFileDirectory,
-//                                                   l1Cut + redCutString,
-//                                                   genCut, xMin, xMax, useVariableBinning);
-//   vGraphs.push_back(tightEta);
-//   vLabels.push_back("TDR emulator with standalone WP");
-//   vColors.push_back(kBlue);
-
-//   TGraphAsymmErrors *allEta2 = calculateEfficiency("genEta", treePath2, rootFileDirectory2,
-//                                                    l1Cut,
-//                                                    genCut, xMin, xMax, useVariableBinning);
-//   vGraphs.push_back(allEta2);
-//   vLabels.push_back("Phase 2 emulator w/o WP");
-//   vColors.push_back(kBlack);
-
-//   TGraphAsymmErrors *tightEta2 = calculateEfficiency("genEta", treePath2, rootFileDirectory2,
-//                                                    l1Cut + redCutString,
-//                                                    genCut, xMin, xMax, useVariableBinning);
-//   vGraphs.push_back(tightEta2);
-//   vLabels.push_back("Phase 2 emulator with standalone WP");
-//   vColors.push_back(kRed); 
-
-//   plotNEfficiencies(vGraphs, vLabels, vColors,
-//                     "Gen Electron #eta",
-//                     "Emulators",                                                                
-//                     "efficiency_genEta_barrel_l1Ptgt25GeV_genPtgt30GeV",
-//                     outputDirectory, "L1 p_{T} > 25 GeV, |#eta^{Gen}| < 1.4841", 0.0, 1.02, "Gen p_{T} > 30 GeV");
+                    outputPlotName + "_T2tt_trkMHT_trkMET_overlay",                                                             
+                    outputDirectory, "L1 quantity > 60 GeV"); // L1 p_{T} > 25 GeV, |#eta^{Gen}| < 1.4841", 0.0, 1.02, "Gen p_{T} > 30 GeV");  
 
 }
 
