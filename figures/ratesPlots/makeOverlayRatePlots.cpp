@@ -31,8 +31,7 @@ TH1F* GetCumulative(TH1F* plot);
 
 TH1F* getRateHistogram(TString variable_name = "trkMHT") {
     TChain* tree = new TChain("L1TrackNtuple/eventTree");
-  //    tree->Add("/afs/cern.ch/work/s/skkwan/public/globalTrackTrigger/CMSSW_14_2_0_pre2/src/L1Trigger/L1TGTTAnalyzer/test/onefile_MinBias_pathological.root");
-    tree->Add("davs://cmsxrootd.hep.wisc.edu:1094/store/user/skkwan/L1TGTTAnalyzer/MinBias_0.root");
+    tree->Add("/afs/cern.ch/work/s/skkwan/public/globalTrackTrigger/CMSSW_14_2_0_pre2/src/L1Trigger/L1TGTTAnalyzer/test/onefile_MinBias_pathological.root");
 
     if (tree->GetEntries() == 0) {
         cout << "File doesn't exist or is empty, returning..." << endl;
@@ -45,9 +44,9 @@ TH1F* getRateHistogram(TString variable_name = "trkMHT") {
 
     tree->SetBranchAddress(variable_name, &this_value, &b_this_variable);
 
-    float numBins = 40;
+    float numBins = 100.0;
 
-    TH1F* histReco = new TH1F("reco", "reco; " + variable_name + " (GeV); L1 Rate (kHz)", numBins, 0, 100.0);  //using tracks
+    TH1F* histReco = new TH1F("reco", "reco; " + variable_name + " (GeV); L1 Rate (kHz)", numBins, 0, numBins);  //using tracks
 
     int nevt = tree->GetEntries();
     cout << "number of events = " << nevt << endl;
@@ -62,7 +61,7 @@ TH1F* getRateHistogram(TString variable_name = "trkMHT") {
     }  // end event loop
 
     TH1F* fCumulative = GetCumulative(histReco);
-    fCumulative->Scale(30e3 / fCumulative->GetBinContent(1));
+    fCumulative->Scale(35.0 / fCumulative->GetBinContent(1));
     return fCumulative;
 }
 
@@ -90,9 +89,9 @@ void makeOverlayRatePlots(void)
 
   // Rates as a function of l1Pt    
   xMin = 0;
-  xMax = 100.0;
+  xMax = 50.0;
   yMin = 1.0;
-  yMax = 10e4;
+  yMax = 500;
   useLogy = true;
 
 
@@ -106,7 +105,7 @@ void makeOverlayRatePlots(void)
   // one more color if necessary: kAzure-9
   plotNRates(vHists, vLabels, vColors,
              xMin, xMax, yMin, yMax,
-             "L1 Threshold (GeV)",
+             "Threshold [GeV]",
              "rates_overlay",
              outputDirectory,
              useLogy);

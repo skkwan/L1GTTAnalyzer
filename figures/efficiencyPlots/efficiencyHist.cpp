@@ -105,7 +105,6 @@ void plotNEfficiencies(std::vector<TGraphAsymmErrors*> graphs,
 
   histDummy->GetXaxis()->SetTitle(xAxisLabel);
   histDummy->GetYaxis()->SetTitle("L1 Efficiency");
-  histDummy->GetXaxis()->SetNdivisions(505);
   histDummy->GetXaxis()->SetTitleSize(0.06); // default is 0.03                                                                    
   /* Set y-axis limits */  
   histDummy->GetYaxis()->SetRangeUser(yMin, yMax);
@@ -119,7 +118,7 @@ void plotNEfficiencies(std::vector<TGraphAsymmErrors*> graphs,
     {
       leg->AddEntry(*itGraph, "#scale[0.6]{" + *itLabel + "}",  "P");
     }
-  leg->Draw();
+  // leg->Draw();
 
 
   // Default to RCT label, use GCT if not
