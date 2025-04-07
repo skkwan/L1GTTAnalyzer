@@ -136,7 +136,7 @@ if runVtxNN:
                                                         absZ0Max = cms.double(15.0), # z0 must be less than this value, [cm]
                                                         nStubsMin = cms.int32(4), # number of stubs must be greater than or equal to this value
                                                         nPSStubsMin = cms.int32(0), # the number of stubs in the PS Modules must be greater than or equal to this value
-                                                        promptMVAMin = cms.double(0.6), # MVA must be greater than this value
+                                                        promptMVAMin = cms.double(-1.0), # MVA must be greater than this value
                                                         reducedBendChi2Max = cms.double(999.0), # bend chi2 must be less than this value
                                                         reducedChi2RZMax = cms.double(999.0), # chi2rz/dof must be less than this value
                                                         reducedChi2RPhiMax = cms.double(999.0), # chi2rphi/dof must be less than this value
