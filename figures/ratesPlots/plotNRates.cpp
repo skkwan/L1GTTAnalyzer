@@ -99,6 +99,7 @@ void plotNRates(std::vector<TH1F*> hists,
       (*itHist)->GetXaxis()->SetRangeUser(xMin, xMax);
       (*itHist)->GetYaxis()->SetRangeUser(yMin, yMax);
       (*itHist)->GetXaxis()->SetTitle(xAxisLabel);
+      (*itHist)->GetXaxis()->SetNdivisions(520);  // 20 primary divisions, 5 secondary divisions: https://root.cern.ch/doc/master/classTH1.html#a5d3b67a639d33ecb34a64fdb539000bb 
       (*itHist)->GetYaxis()->SetTitle("Rate (kHz)");
       (*itHist)->GetXaxis()->SetTitleSize(0.06); // default is 0.03                                                                    
       (*itHist)->GetYaxis()->SetTitleSize(0.06); // default is 0.03 
