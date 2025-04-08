@@ -29,9 +29,9 @@ void plotFiveRates(TH1F* h1, TString h1Label, int c1,
 TH1F* GetCumulative(TH1F* plot);
 /*********************************************************************/
 
-TH1F* getRateHistogram(TString variable_name = "trkMHT") {
+TH1F* getRateHistogram(TString variable_name, float xMax) {
     TChain* tree = new TChain("L1TrackNtuple/eventTree");
-    tree->Add("/afs/cern.ch/work/s/skkwan/public/globalTrackTrigger/CMSSW_14_2_0_pre2/src/L1Trigger/L1TGTTAnalyzer/test/onefile_MinBias_pathological.root");
+    tree->Add("/eos/user/s/skkwan/globalTrackTrigger/analyzer_MinBias_Phase2Spring24_mvaCut0p6_partial.root");
 
     if (tree->GetEntries() == 0) {
         cout << "File doesn't exist or is empty, returning..." << endl;
@@ -44,9 +44,9 @@ TH1F* getRateHistogram(TString variable_name = "trkMHT") {
 
     tree->SetBranchAddress(variable_name, &this_value, &b_this_variable);
 
-    float numBins = 100.0;
+    float numBins = 40;
 
-    TH1F* histReco = new TH1F("reco", "reco; " + variable_name + " (GeV); L1 Rate (kHz)", numBins, 0, numBins);  //using tracks
+    TH1F* histReco = new TH1F("reco", "reco; " + variable_name + " (GeV); L1 Rate (kHz)", numBins, 0, xMax);  //using tracks
 
     int nevt = tree->GetEntries();
     cout << "number of events = " << nevt << endl;
@@ -61,7 +61,7 @@ TH1F* getRateHistogram(TString variable_name = "trkMHT") {
     }  // end event loop
 
     TH1F* fCumulative = GetCumulative(histReco);
-    fCumulative->Scale(35.0 / fCumulative->GetBinContent(1));
+    fCumulative->Scale(30e3 / fCumulative->GetBinContent(1));
     return fCumulative;
 }
 
@@ -89,14 +89,14 @@ void makeOverlayRatePlots(void)
 
   // Rates as a function of l1Pt    
   xMin = 0;
-  xMax = 50.0;
+  xMax = 100.0;
   yMin = 1.0;
-  yMax = 500;
+  yMax = 10e4;
   useLogy = true;
 
 
-  TH1F* rate_trkMHT = getRateHistogram("trkMHT");
-  TH1F* rate_trkMET = getRateHistogram("trkMET");
+  TH1F* rate_trkMHT = getRateHistogram("trkMHT", xMax + 20);
+  TH1F* rate_trkMET = getRateHistogram("trkMET", xMax + 20);
 
 
   vHists.push_back(rate_trkMHT); vLabels.push_back("TrkMHT"); vColors.push_back(kBlack);
@@ -105,7 +105,7 @@ void makeOverlayRatePlots(void)
   // one more color if necessary: kAzure-9
   plotNRates(vHists, vLabels, vColors,
              xMin, xMax, yMin, yMax,
-             "Threshold [GeV]",
+             "L1 Threshold (GeV)",
              "rates_overlay",
              outputDirectory,
              useLogy);
