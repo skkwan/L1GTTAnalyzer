@@ -69,7 +69,7 @@ void makeEfficienciesPlotOneScheme(void)  {
                     "TrueMET / GeV",
                     "Phase-2 GTT",   
                     outputPlotName + "_T2tt_trkMHT_trkMET_overlay",                                                             
-                    outputDirectory, "L1 quantity > 60 GeV"); // L1 p_{T} > 25 GeV, |#eta^{Gen}| < 1.4841", 0.0, 1.02, "Gen p_{T} > 30 GeV");  
+                    outputDirectory, "MVA score > 0.6 for track jets"); // L1 p_{T} > 25 GeV, |#eta^{Gen}| < 1.4841", 0.0, 1.02, "Gen p_{T} > 30 GeV");  
 
 }
 
