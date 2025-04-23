@@ -47,7 +47,7 @@ void makeEfficienciesPlotOneScheme(void)  {
   /****************************************/
   vGraphs.clear();  vLabels.clear();  vColors.clear();
   xMin = 0;
-  xMax = 200;
+  xMax = 300;
   genCut  = "";
   useVariableBinning = false;
 

@@ -128,7 +128,7 @@ void plotNRates(std::vector<TH1F*> hists,
   latex->DrawLatex(0.75, 0.960, "#scale[0.6]{200 PU, MinBias}"); 
 
   float commentaryXpos = 0.53;
-  latex->DrawLatex(commentaryXpos, 0.9, "#scale[0.7]{With MVA > 0.6 for track jets}");
+  latex->DrawLatex(commentaryXpos, 0.9, "#scale[0.7]{Phase-2 L1 Global Track Trigger}");
   //  latex->DrawLatex(commentaryXpos, 0.790, "#scale[0.8]{Phase 2 HLT TDR Winter20}");
 
   Tcan->Update();

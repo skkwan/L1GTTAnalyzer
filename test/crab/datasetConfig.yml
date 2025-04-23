@@ -5,14 +5,14 @@
 requestname: "Analyzer"
 
 signal:
-  year: 2023
+  year: 2024
   script: src/L1Trigger/L1TGTTAnalyzer/test/crab/crab_script_analyzer.py
   # note: 23 is outdated but 24 campaign is still on tape (/SMS-T2tt_mStop-1000_mLSP-775_TuneCP5_14TeV-madgraphMLM-pythia8/Phase2Spring24DIGIRECOMiniAOD-PU200_Trk1GeV_140X_mcRun4_realistic_v4-v1/GEN-SIM-DIGI-RAW-MINIAOD)
-  prodtag: Phase2Spring23
+  prodtag: Phase2Spring24
   inputDBS: global
   outputName: analyzer.root
   datasets:
-    SMS-T2tt_mStop-1000_mLSP-775_TuneCP5_14TeV-madgraphMLM-pythia8: /SMS-T2tt_mStop-1000_mLSP-775_TuneCP5_14TeV-madgraphMLM-pythia8/Phase2Spring23DIGIRECOMiniAOD-PU200_L1TFix_131X_mcRun4_realistic_v9-v1/GEN-SIM-DIGI-RAW-MINIAOD
+    SMS-T2tt_mStop-1000_mLSP-775_TuneCP5_14TeV-madgraphMLM-pythia8: /SMS-T2tt_mStop-1000_mLSP-775_TuneCP5_14TeV-madgraphMLM-pythia8/Phase2Spring24DIGIRECOMiniAOD-PU200_Trk1GeV_140X_mcRun4_realistic_v4-v1/GEN-SIM-DIGI-RAW-MINIAOD
   nFilesPerJob:
     SMS-T2tt_mStop-1000_mLSP-775_TuneCP5_14TeV-madgraphMLM-pythia8: 1
 
@@ -26,3 +26,4 @@ minbias:
     MinBias_TuneCP5_14TeV-pythia8: /MinBias_TuneCP5_14TeV-pythia8/Phase2Spring24DIGIRECOMiniAOD-PU200ALCA_140X_mcRun4_realistic_v4-v2/GEN-SIM-DIGI-RAW-MINIAOD
   nFilesPerJob:
     MinBias_TuneCP5_14TeV-pythia8: 2
+    

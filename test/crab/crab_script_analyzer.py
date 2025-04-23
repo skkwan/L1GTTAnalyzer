@@ -15,14 +15,14 @@ from Configuration.Eras.Era_Phase2C17I13M9_cff import Phase2C17I13M9
 L1TRK_INST ="MyL1TrackJets" ### if not in input DIGRAW then we make them in the above step
 process = cms.Process(L1TRK_INST, Phase2C17I13M9)
 
-#L1TRKALGO = 'HYBRID'  #baseline, 4par fit
+L1TRKALGO = 'HYBRID'  #baseline, 4par fit
 #L1TRKALGO = 'HYBRID_DISPLACED'  #extended, 5par fit
-L1TRKALGO = 'HYBRID_PROMPTANDDISP'
+# L1TRKALGO = 'HYBRID_PROMPTANDDISP'
 
 DISPLACED = ''
 
 
-runVtxNN = True
+runVtxNN = False
 ############################################################
 # import standard configurations
 ############################################################
