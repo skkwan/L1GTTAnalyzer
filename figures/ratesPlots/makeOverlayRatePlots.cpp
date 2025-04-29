@@ -4,7 +4,6 @@
 /* Usage: root -l -b -q makeOverlayRatesPlots.cpp                  */
 /*******************************************************************/
 
-#include "calculateRates.cpp"
 #include "plotNRates.cpp"
 
 TH1F* GetCumulative(TH1F* plot);
