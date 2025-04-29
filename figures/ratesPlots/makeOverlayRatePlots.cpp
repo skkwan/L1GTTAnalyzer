@@ -1,37 +1,19 @@
 /*******************************************************************/
-/* makeRatesPlots.cpp                                              */
+/* makeOverlayRatesPlots.cpp                                       */
 /* ROOT macro                                                      */
-/* Usage: root -l -b -q makeRatesPlots.cpp                         */
+/* Usage: root -l -b -q makeOverlayRatesPlots.cpp                  */
 /*******************************************************************/
 
 #include "calculateRates.cpp"
 #include "plotNRates.cpp"
-#include "../baseCodeForPlots/CMS_lumi.h"
-#include "../baseCodeForPlots/tdrstyle.C"
-
-void plotHists(TH1F* h1, TString h1Label, 
-          TH1F* h2, TString h2Label,
-          TH1F* h3, TString h3Label,
-          TString filename,
-               TString outputDir);
-
-void plotFiveRates(TH1F* h1, TString h1Label, int c1,
-         TH1F* h2, TString h2Label, int c2,
-         TH1F* h3, TString h3Label, int c3,
-         TH1F* h4, TString h4Label, int c4,
-         TH1F* h5, TString h5Label, int c5,
-         float xMin, float xMax,
-         float yMin, float yMax,
-         TString legendTitle,
-         TString filename,
-         TString outputDir);
 
 TH1F* GetCumulative(TH1F* plot);
+
 /*********************************************************************/
 
 TH1F* getRateHistogram(TString variable_name, float xMax) {
     TChain* tree = new TChain("L1TrackNtuple/eventTree");
-    tree->Add("/eos/user/s/skkwan/globalTrackTrigger/analyzer_MinBias_Phase2Spring24_mvaCut0p6_partial.root");
+    tree->Add("/eos/user/s/skkwan/globalTrackTrigger/analyzer_MinBias_0p6MVAcut_250421_232041_partial.root");
 
     if (tree->GetEntries() == 0) {
         cout << "File doesn't exist or is empty, returning..." << endl;
@@ -99,14 +81,14 @@ void makeOverlayRatePlots(void)
   TH1F* rate_trkMET = getRateHistogram("trkMET", xMax + 20);
 
 
-  vHists.push_back(rate_trkMHT); vLabels.push_back("TrkMHT"); vColors.push_back(kBlack);
+  vHists.push_back(rate_trkMHT); vLabels.push_back("TrkMHT, MVA > 0.6"); vColors.push_back(kBlack);
   vHists.push_back(rate_trkMET); vLabels.push_back("TrkMET"); vColors.push_back(kRed);
 
   // one more color if necessary: kAzure-9
   plotNRates(vHists, vLabels, vColors,
              xMin, xMax, yMin, yMax,
              "L1 Threshold (GeV)",
-             "rates_overlay",
+             "rates_overlay_mva_0p6",
              outputDirectory,
              useLogy);
 

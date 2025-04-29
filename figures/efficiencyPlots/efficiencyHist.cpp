@@ -34,6 +34,36 @@
 
 /*******************************************************************/
 
+/*
+ * Return the first x-axis bin where the central value of the efficiency bypasses the given threshold in efficiency.
+ */
+float getThreshold(TGraphAsymmErrors* graph, float val_threshold = 0.9) {
+  float x = 0;
+  // Loop over the points 
+  for (int i = 0; i < graph->GetN(); i++) {
+    double errorY = graph->GetErrorY(i);
+    double pointX, pointY;
+
+    if (graph->GetPoint(i, pointX, pointY) < 0) {
+      printf("Error getting point\n");
+    }
+
+    std::cout << "Checking point " << pointX << ", " << pointY << std::endl;
+    // if pointY is greater than threshold, return pointX and exit the loop
+    if (pointY > val_threshold) { 
+      std::cout << "... Returning pointX" << std::endl;
+      return (float) pointX;
+    }
+  }
+  std::cout << "[WARNING:] efficiencyHist.cpp: getThreshold function: reached end without ever finding a point exceeding the threshold " << val_threshold << std::endl;
+  return x;
+}
+
+/*******************************************************************/
+
+/* 
+ * Plot a vector of efficiency curves.
+ */
 void plotNEfficiencies(std::vector<TGraphAsymmErrors*> graphs, 
                       std::vector<TString> labels,
                       std::vector<int> colors,
@@ -53,7 +83,7 @@ void plotNEfficiencies(std::vector<TGraphAsymmErrors*> graphs,
   TCanvas* Tcan = new TCanvas("Tcan","", 100, 20, 1000, 1000);
   TLegend *leg;
   if (legendPos == "bottomright") {
-    leg = new TLegend(0.40,0.15,0.90,0.45);
+    leg = new TLegend(0.30,0.15,0.90,0.45);
   } 
   else if (legendPos == "topright") {
     leg = new TLegend(0.55,0.65,0.90,0.87);
@@ -117,7 +147,7 @@ void plotNEfficiencies(std::vector<TGraphAsymmErrors*> graphs,
        itGraph != graphs.end();
        itGraph++, itLabel++)
     {
-      leg->AddEntry(*itGraph, "#scale[0.6]{" + *itLabel + "}",  "P");
+      leg->AddEntry(*itGraph, "#scale[0.7]{" + *itLabel + "}",  "P");
     }
   leg->Draw();
 
@@ -128,7 +158,7 @@ void plotNEfficiencies(std::vector<TGraphAsymmErrors*> graphs,
     emuLabel = "#scale[1.0]{#bf{CMS}} #scale[0.6]{#it{Phase 2 RCT emulator}}";  
   }
   latex->DrawLatex(0.16, 0.960, emuLabel);  
-  latex->DrawLatex(0.60, 0.960, "#scale[0.6]{200 PU, T2tt (Phase2Spring23)}"); 
+  latex->DrawLatex(0.60, 0.960, "#scale[0.6]{200 PU, T2tt (Phase2Spring24)}"); 
 
   // Commentary x and y-position
   float commentaryXpos = 0.55;
@@ -147,7 +177,7 @@ void plotNEfficiencies(std::vector<TGraphAsymmErrors*> graphs,
 
   latex->DrawLatex(commentaryXpos, yRow1, "#scale[0.7]{}");
   // originally commentaryXpos, yRow2
-  latex->DrawLatex(0.32, 0.90, "#scale[0.7]{" + comment + "}");
+  latex->DrawLatex(0.25, 0.90, "#scale[0.7]{" + comment + "}");
   if (extracomment != "") {
     latex->DrawLatex(commentaryXpos, yRow3, "#scale[0.7]{" + extracomment + "}");
   }
