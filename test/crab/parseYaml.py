@@ -16,7 +16,7 @@ for eraType in ["minbias", "signal"]:
       dir = "crabJobConfigs/" + str(config[eraType]["year"]) + "/" 
       os.system("mkdir -p " + dir)
 
-      newCRABConfFile  = dir + "new_mva_cut_" + d + "_" + config[eraType]["prodtag"] + "_cfg.py"  
+      newCRABConfFile  = dir + d + "_" + config[eraType]["prodtag"] + "_cfg.py"  
       print(newCRABConfFile)
 
       requestName      = "test_" + config["requestname"] + "_" + d + "_" + config[eraType]["prodtag"]  
