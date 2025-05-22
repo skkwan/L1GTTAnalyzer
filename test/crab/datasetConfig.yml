@@ -12,8 +12,11 @@ signal:
   inputDBS: global
   outputName: analyzer.root
   datasets:
+    TT_TuneCP5_14TeV-powheg-pythia8: /TT_TuneCP5_14TeV-powheg-pythia8/Phase2Spring24DIGIRECOMiniAOD-PU200_Trk1GeV_140X_mcRun4_realistic_v4-v2/GEN-SIM-DIGI-RAW-MINIAOD 
     SMS-T2tt_mStop-1000_mLSP-775_TuneCP5_14TeV-madgraphMLM-pythia8: /SMS-T2tt_mStop-1000_mLSP-775_TuneCP5_14TeV-madgraphMLM-pythia8/Phase2Spring24DIGIRECOMiniAOD-PU200_Trk1GeV_140X_mcRun4_realistic_v4-v1/GEN-SIM-DIGI-RAW-MINIAOD
+
   nFilesPerJob:
+    TT_TuneCP5_14TeV-powheg-pythia8: 1
     SMS-T2tt_mStop-1000_mLSP-775_TuneCP5_14TeV-madgraphMLM-pythia8: 1
 
 minbias:
