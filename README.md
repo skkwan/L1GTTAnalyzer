@@ -8,9 +8,12 @@ The latest CMSSW version to use is taken from the [SWGuideL1TPhase2Instructions 
 ```bash
 cmsrel CMSSW_14_2_0_pre2
 cd CMSSW_14_2_0_pre2/src
+cmsenv
 git cms-init
 git cms-addpkg L1Trigger/L1TTrackMatch
+cd L1Trigger/
 # then clone this repository
+cd ..
 scram b -j 8
 ```
 
