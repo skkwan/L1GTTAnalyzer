@@ -49,7 +49,7 @@ void plotNRates(std::vector<TH1F*> hists,
   setTDRStyle();
   TCanvas* Tcan = new TCanvas("Tcan","", 100, 20, 1000, 1000);
 //  TLegend* leg = new TLegend(0.55,0.15,0.90,0.45); // bottom right corner
-  TLegend* leg = new TLegend(0.60,0.65,0.90,0.95);
+  TLegend* leg = new TLegend(0.45,0.65,0.90,0.95);
   applySmallerLegStyle(leg);
 
   Tcan->SetGrid();
@@ -108,6 +108,13 @@ void plotNRates(std::vector<TH1F*> hists,
     }
 
 
+  // draw horizontal line to represent 30 kHz
+  TLine* line_rate = new TLine(0, 30, xMax, 30);
+  line_rate->SetLineColor(kBlack);
+  line_rate->SetLineWidth(1);
+  line_rate->SetLineStyle(9);
+  line_rate->Draw("SAME");
+
   // histDummy->GetYaxis()->SetNoExponent(kFALSE);
   /* Customize legend */
   //  leg->SetHeader(legendName); 
@@ -127,7 +134,7 @@ void plotNRates(std::vector<TH1F*> hists,
   latex->DrawLatex(0.17, 0.960, emuLabel); 
   latex->DrawLatex(0.75, 0.960, "#scale[0.6]{200 PU, MinBias}"); 
 
-  float commentaryXpos = 0.53;
+  float commentaryXpos = 0.48;
   latex->DrawLatex(commentaryXpos, 0.9, "#scale[0.7]{Phase-2 L1 Global Track Trigger}");
   //  latex->DrawLatex(commentaryXpos, 0.790, "#scale[0.8]{Phase 2 HLT TDR Winter20}");
 

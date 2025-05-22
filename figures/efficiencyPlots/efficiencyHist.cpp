@@ -61,6 +61,35 @@ float getThreshold(TGraphAsymmErrors* graph, float val_threshold = 0.9) {
 
 /*******************************************************************/
 
+/*
+ * Return the y-axis value corresponding to the bin which contains the given x-axis value.
+ */
+float getYValueAt(TGraphAsymmErrors* graph, float target_x_val) {
+  float yVal = 0;
+  // Loop over the points 
+  for (int i = 0; i < graph->GetN(); i++) {
+    double errorY = graph->GetErrorY(i);
+    double errorX = graph->GetErrorX(i);
+    double pointX, pointY;
+
+    if (graph->GetPoint(i, pointX, pointY) < 0) {
+      printf("Error getting point\n");
+    }
+
+    std::cout << "Checking point " << pointX << ", " << pointY << std::endl;
+    // if the target x value is inside this bin, return pointX and exit the loop
+    if ((target_x_val > (pointX - errorX)) && (target_x_val < (pointX + errorX))) { 
+      std::cout << "... Returning pointY" << std::endl;
+      return (float) pointY;
+    }
+  }
+  std::cout << "[WARNING:] efficiencyHist.cpp: getYValueAt function: reached end without ever finding a point exceeding the threshold " << target_x_val << std::endl;
+
+  return yVal;
+}
+
+/*******************************************************************/
+
 /* 
  * Plot a vector of efficiency curves.
  */
@@ -83,7 +112,7 @@ void plotNEfficiencies(std::vector<TGraphAsymmErrors*> graphs,
   TCanvas* Tcan = new TCanvas("Tcan","", 100, 20, 1000, 1000);
   TLegend *leg;
   if (legendPos == "bottomright") {
-    leg = new TLegend(0.30,0.15,0.90,0.45);
+    leg = new TLegend(0.38,0.15,0.90,0.45);
   } 
   else if (legendPos == "topright") {
     leg = new TLegend(0.55,0.65,0.90,0.87);
@@ -135,7 +164,7 @@ void plotNEfficiencies(std::vector<TGraphAsymmErrors*> graphs,
 
   histDummy->GetXaxis()->SetTitle(xAxisLabel);
   histDummy->GetYaxis()->SetTitle("L1 Efficiency");
-  histDummy->GetXaxis()->SetNdivisions(505);
+  histDummy->GetXaxis()->SetNdivisions(510);
   histDummy->GetXaxis()->SetTitleSize(0.06); // default is 0.03                                                                    
   /* Set y-axis limits */  
   histDummy->GetYaxis()->SetRangeUser(yMin, yMax);
@@ -158,7 +187,7 @@ void plotNEfficiencies(std::vector<TGraphAsymmErrors*> graphs,
     emuLabel = "#scale[1.0]{#bf{CMS}} #scale[0.6]{#it{Phase 2 RCT emulator}}";  
   }
   latex->DrawLatex(0.16, 0.960, emuLabel);  
-  latex->DrawLatex(0.60, 0.960, "#scale[0.6]{200 PU, T2tt (Phase2Spring24)}"); 
+  latex->DrawLatex(0.60, 0.960, "#scale[0.6]{200 PU, TTbar (Phase2Spring24)}"); 
 
   // Commentary x and y-position
   float commentaryXpos = 0.55;

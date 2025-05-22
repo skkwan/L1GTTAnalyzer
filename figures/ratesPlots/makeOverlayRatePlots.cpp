@@ -7,12 +7,17 @@
 #include "plotNRates.cpp"
 
 TH1F* GetCumulative(TH1F* plot);
+float GetThresholdFromFirstBinPassing(TH1F* hRate, float targetRate);
+float GetThresholdFromInterpolation(TH1F* hRate, float targetRate);
+std::string formatFloat(float f, int decimalPoints);
+
 
 /*********************************************************************/
 
-TH1F* getRateHistogram(TString variable_name, float xMax) {
+TH1F* getRateHistogram(TString variable_name, float xMax, std::string timestamp) {
     TChain* tree = new TChain("L1TrackNtuple/eventTree");
-    tree->Add("/eos/user/s/skkwan/globalTrackTrigger/analyzer_MinBias_0p6MVAcut_250421_232041_partial.root");
+    std::string target = "/eos/user/s/skkwan/globalTrackTrigger/analyzer_MinBias_" + timestamp + "_partial.root";
+    tree->Add(target.c_str());
 
     if (tree->GetEntries() == 0) {
         cout << "File doesn't exist or is empty, returning..." << endl;
@@ -54,9 +59,11 @@ TH1F* getRateHistogram(TString variable_name, float xMax) {
 
 void makeOverlayRatePlots(void)
 {
+  std::string timestamp = "250516_221135";
+
   gROOT->ProcessLine(".L calculateRates.cpp");
 
-  TString outputDirectory = "";
+  TString outputDirectory = "/eos/user/s/skkwan/www/globalTrackTrigger/";
   // Input file and output directory
 
   float xMin, xMax;
@@ -76,18 +83,34 @@ void makeOverlayRatePlots(void)
   useLogy = true;
 
 
-  TH1F* rate_trkMHT = getRateHistogram("trkMHT", xMax + 20);
-  TH1F* rate_trkMET = getRateHistogram("trkMET", xMax + 20);
+  TH1F* rate_trkMHT = getRateHistogram("trkMHT", xMax + 20, timestamp);
+  TH1F* rate_trkMET = getRateHistogram("trkMET", xMax + 20, timestamp);
 
+  // Get the threshold at which the rate goes below 30 kHz
+  float thresh_trkMHT = GetThresholdFromInterpolation(rate_trkMHT, 30);
+  float thresh_trkMET = GetThresholdFromInterpolation(rate_trkMET, 30);
+  std::cout << ">>> trkMHT has threshold at " << thresh_trkMHT << std::endl;
+  std::cout << ">>> trkMET has threshold at " << thresh_trkMET << std::endl;
 
-  vHists.push_back(rate_trkMHT); vLabels.push_back("TrkMHT, MVA > 0.6"); vColors.push_back(kBlack);
-  vHists.push_back(rate_trkMET); vLabels.push_back("TrkMET"); vColors.push_back(kRed);
+  // Also write out the thresholds to a text file
+  ofstream f1;
+  f1.open("trkMHT_threshold_30kHz.txt");
+  f1 << thresh_trkMHT;
+  f1.close();
+
+  ofstream f2;
+  f2.open("trkMET_threshold_30kHz.txt");
+  f2 << thresh_trkMET;
+  f2.close();
+  
+  vHists.push_back(rate_trkMHT); vLabels.push_back("TrkMHT, reaches 30 kHz at " + formatFloat(thresh_trkMHT, 1) + " GeV"); vColors.push_back(kRed);
+  vHists.push_back(rate_trkMET); vLabels.push_back("TrkMET, reaches 30 kHz at " + formatFloat(thresh_trkMET, 1) + " GeV"); vColors.push_back(kBlack);
 
   // one more color if necessary: kAzure-9
   plotNRates(vHists, vLabels, vColors,
              xMin, xMax, yMin, yMax,
              "L1 Threshold (GeV)",
-             "rates_overlay_mva_0p6",
+             "rates_" + timestamp,
              outputDirectory,
              useLogy);
 
@@ -95,6 +118,9 @@ void makeOverlayRatePlots(void)
 
 }
 
+/* 
+ * Get the cumulative histogram from an input histogram.
+ */
 TH1F* GetCumulative(TH1F* plot) {
     std::string newName = Form("cumulative_%s", plot->GetName());
     TH1F* temp = (TH1F*)plot->Clone(newName.c_str());
@@ -111,3 +137,61 @@ TH1F* GetCumulative(TH1F* plot) {
     return temp;
   }
   
+/* 
+ * For a rate histogram hRate, return the center of the first bin where the rate drops below targetRate.
+ */
+float GetThresholdFromFirstBinPassing(TH1F* hRate, float targetRate) {
+  float x = 0;
+  // Loop over the points 
+  for (int i = 0; i < hRate->GetNbinsX(); i++) {
+    float yValue = hRate->GetBinContent(i); 
+    std::cout << "... checking point " << hRate->GetBinCenter(i) << ", " << yValue << std::endl;
+    if (yValue < targetRate) {
+      x = hRate->GetBinCenter(i);
+      return x;
+    }
+  }
+  std::cout << "[WARNING:] makeOverlayRatePlots.cpp: getThreshold function: reached end without ever finding a point exceeding the threshold " << targetRate << std::endl;
+  return x;
+}
+
+/*
+ * For a rate histogram hRate, return the x-axis value from interpolation where the rate drops below targetRate.
+ */
+float GetThresholdFromInterpolation(TH1F* hRate, float targetRate) {
+  float x_solution = 0;
+  // Loop over the points 
+  for (int i = 0; i < hRate->GetNbinsX(); i++) {
+    float y1 = hRate->GetBinContent(i); 
+    float x1 = hRate->GetBinCenter(i);
+    // if this is not the last bin, get the next yValue
+    if (i < (hRate->GetNbinsX() -1)) {
+      float y2 = hRate->GetBinContent(i+1);
+      float x2 = hRate->GetBinCenter(i+1);
+      std::cout << "... checking bin from " << x1 << " to " << x2 << " with yValue " << y1 << ", " << y2 << std::endl;
+    
+      // Perform interpolation if targetRate falls in this bin. Note that the rate is always decreasing, so y1 > y2
+      if ((targetRate > y2) && (targetRate < y1)) {
+        // y = m*x + b
+        // slope 
+        float m = ((y2 - y1)/(x2 - x1));
+        // y-intercept: substitute back into equation for the point (x1, y1)
+        float b = (y1 - (m * x1));
+        // solve for x where y = targetRate
+        x_solution = ((targetRate - b)/m);
+      }
+    }
+  }
+  return x_solution;
+}
+
+/*
+ * Format a float with the given number of decimals after and return it as a string.
+ */
+std::string formatFloat(float f, int decimalPoints) {
+  // Format the threshold with one point after the decimal
+  std::ostringstream oss;
+  oss << std::setprecision(decimalPoints) << fixed << f;
+  std::string formatted_str = oss.str();
+  return formatted_str;
+}
